@@ -7,6 +7,8 @@ class Task extends Component{
             name: 'My new task',
             completed: false,
         }
+
+        this.changeName = this.changeName.bind(this);
     }
 
     markAsCompleted(){
@@ -15,8 +17,21 @@ class Task extends Component{
         });
     }
 
+    changeName(event){
+        this.setState({
+            name: event.target.value
+        });
+    }
+
     render(){
-        let text = <input className="form-control" value={this.state.name}/>;
+        let text = <input
+            type="text"
+            className="form-control"
+            onChange={this.changeName}
+            value={this.state.name}
+            disabled={this.state.completed}
+        />;
+
         let button_txt = "far fa-check-square";
 
         if (this.state.completed) {
