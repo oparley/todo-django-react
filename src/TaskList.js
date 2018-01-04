@@ -9,13 +9,9 @@ class TaskList extends Component{
         };
     }
 
-    onChildDelete(newState){
-        console.log(newState);
-    }
-
     render(){
         let tasks = this.state.tasks.map((task) =>
-            <Task name={task.name} completed={task.completed} key={task.id} id={task.id} callbackParent={this.onChildDelete} />
+            <Task name={task.name} completed={task.completed} key={task.id} />
         );
 
         return(

@@ -29,7 +29,7 @@ class Task extends Component{
     deleteTask(event){
         let confirm = window.confirm("Are you sure?")
         if(confirm){
-            this.props.callbackParent(this.state.id);
+            console.log(confirm)
         }
     }
 
