@@ -4,11 +4,14 @@ class Task extends Component{
     constructor(props){
         super(props);
         this.state = {
-            name: 'My new task',
-            completed: false,
-        }
+            name: props.name,
+            completed: props.completed,
+            id: props.id,
+        };
 
         this.changeName = this.changeName.bind(this);
+        this.markAsCompleted = this.markAsCompleted.bind(this);
+        this.deleteTask = this.deleteTask.bind(this);
     }
 
     markAsCompleted(){
@@ -23,30 +26,32 @@ class Task extends Component{
         });
     }
 
+    deleteTask(event){
+        let confirm = window.confirm("Are you sure?")
+        if(confirm){
+            this.props.callbackParent(this.state.id);
+        }
+    }
+
     render(){
         let text = <input
             type="text"
             className="form-control"
             onChange={this.changeName}
             value={this.state.name}
-            disabled={this.state.completed}
         />;
 
-        let button_txt = "far fa-check-square";
-
         if (this.state.completed) {
-            text = <del>{text}</del>
-            button_txt = "far fa-square"
+            text = <del className="form-control">{this.state.name}</del>;
         }
 
         return(
-            <div className="row">
-                <div className="col-lg-5">
-                    {text}
+            <div className="input-group mb-3">
+                {text}
+                <div className="input-group-append">
+                    <button onClick={this.markAsCompleted} className="btn btn-primary" type="button"><i className="far fa-check-square"></i></button>
+                    <button onClick={this.deleteTask} className="btn btn-danger" type="button"><i className="far fa-trash-alt"></i></button>
                 </div>
-                <button onClick={() => this.markAsCompleted()} className="col-lg-1 btn btn-primary">
-                    <i className={button_txt}></i>
-                </button>
             </div>
         );
     }
