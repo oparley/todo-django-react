@@ -5,22 +5,9 @@ import TaskList from './TaskList';
 import registerServiceWorker from './registerServiceWorker';
 
 
-let tasks = []
-
-
-for (let index = 0; index < 10; index++) {
-    let bla = {
-        name: `My task ${index}`,
-        completed: index%2 === 0,
-        id: index,
-    }
-    tasks.push(bla);
-}
-
 let el = document.getElementById('root');
 
-
-ReactDOM.render(<TaskList tasks={tasks}/>, el);
+ReactDOM.render(<TaskList tasks={[]}/>, el);
 
 registerServiceWorker();
 
