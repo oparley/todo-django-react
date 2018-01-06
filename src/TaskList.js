@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import Task from './Task';
 import axios from 'axios';
-import { TASKS_URL } from './constants';
-import './TaskList.css';
+import { LISTS_URL } from './constants';
 
 
 class TaskList extends Component{
     constructor(props){
         super(props);
         this.state = {
-            id: props.id,
             tasks: [],
         };
 
+        this.url = LISTS_URL + props.id;
         this.updateTasks.bind(this);
     }
 
@@ -21,37 +20,40 @@ class TaskList extends Component{
     }
 
     updateTasks(){
-        axios.get(TASKS_URL).then((response) => {
+        axios.get(this.url).then((response) => {
             this.setState({
-                tasks: response.data
+                tasks: response.data.tasks
             })
         });
     }
 
+    addTask(){
+        console.log('lkbjalkjdaklaj')
+    }
+
     render(){
+        console.log(this)
         let tasks = this.state.tasks.map((task) =>
-            <Task task={task} key={task.id} onChange={() => {this.updateTasks()}}/>
-        );
+                <Task task={task} key={task.id} onChange={() => {this.updateTasks()}}/>
+            );
+
+        let addTask = <p onClick={() => this.addTask()} className="button is-link is-outlined">
+            Add a task
+        </p>
 
         return(
-            <div className="col task-list">
-                <div className="row">
-                    <div className="col-8">
-                        <h3> Task List </h3>
-                    </div>
-                    <div className="col">
-                        <button className="btn btn-danger float-right" type="button"><i className="far fa-trash-alt"></i></button>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">
+            <div className="tile is-parent is-one-fifth">
+                <div className="tile is-child box">
+                    <p className="title">
+                        Task List
+                        <button className="button is-danger is-pulled-right" type="button"><i className="far fa-trash-alt"></i></button>
+                    </p>
+
+                    <div className="content">
                         {tasks}
-                        <div className="row mb-2 pull-right">
-                            <div className="col">
-                                <button className="btn btn-link" >Add a task</button>
-                            </div>
-                        </div>
                     </div>
+
+                    {addTask}
                 </div>
             </div>
         );

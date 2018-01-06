@@ -54,18 +54,20 @@ class Task extends Component{
 
         let text = <input
             type="text"
-            className="form-control"
+            className="input"
             defaultValue={task.name}
             onBlur={this.changeName}
         />;
 
         if (task.completed) {
-            text = <del className="form-control">{task.name}</del>;
+            text = <del className="input">{task.name}</del>;
         }
 
         return(
-            <div className="mb-1">
-                <button className="form-control text-left" onClick={(e) => this.bla(e)} id={task.id}>{task.name}</button>
+            <div className="field">
+            <div className="control">
+            <button className="input button" onClick={(e) => this.bla(e)} id={task.id}>{task.name}</button>
+            </div>
             </div>
         );
         /* <div className="input-group-append">
