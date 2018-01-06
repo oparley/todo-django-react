@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Modal from './Modal'
+
 import { TASKS_URL } from './constants';
 
 class Task extends Component{
     constructor(props){
         super(props);
+        this.state = {
+            showModal: false,
+        }
 
         this.url = TASKS_URL + props.task.id + '/';
 
@@ -45,8 +50,10 @@ class Task extends Component{
         })
     }
 
-    bla(event){
-        console.log(event.target.id)
+    showModal(event){
+        this.setState({
+            showModal: true,
+        })
     }
 
     render(){
@@ -63,11 +70,40 @@ class Task extends Component{
             text = <del className="input">{task.name}</del>;
         }
 
+        let classNames = 'modal'
+
+        if(this.state.showModal){
+            classNames += 'is-active'
+        }
+
         return(
             <div className="field">
-            <div className="control">
-            <button className="input button" onClick={(e) => this.bla(e)} id={task.id}>{task.name}</button>
-            </div>
+                <Modal>
+                <div className={classNames}>
+                    <div className="modal-background"></div>
+                    <div className="modal-card">
+                    <header className="modal-card-head">
+                        <p className="modal-card-title">Modal title</p>
+                        <button className="delete"></button>
+                    </header>
+                    <section className="modal-card-body">
+                        <div className="content">
+                        <h1>Hello World</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.</p>
+
+                        </div>
+                    </section>
+                    <footer className="modal-card-foot">
+                        <a className="button is-success">Save changes</a>
+                        <a className="button">Cancel</a>
+                    </footer>
+                    </div>
+                </div>
+                </Modal>
+
+                <div className="control">
+                    <button className="input button" onClick={(e) => this.showModal(e)} id={task.id}>{task.name}</button>
+                </div>
             </div>
         );
         /* <div className="input-group-append">

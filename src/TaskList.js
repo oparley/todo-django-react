@@ -15,7 +15,7 @@ class TaskList extends Component{
         this.updateTasks.bind(this);
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.updateTasks();
     }
 
@@ -32,7 +32,6 @@ class TaskList extends Component{
     }
 
     render(){
-        console.log(this)
         let tasks = this.state.tasks.map((task) =>
                 <Task task={task} key={task.id} onChange={() => {this.updateTasks()}}/>
             );
@@ -46,7 +45,7 @@ class TaskList extends Component{
                 <div className="tile is-child box">
                     <p className="title">
                         Task List
-                        <button className="button is-danger is-pulled-right" type="button"><i className="far fa-trash-alt"></i></button>
+                        <button className="button is-danger is-pulled-right" type="button" ><i className="far fa-trash-alt"></i></button>
                     </p>
 
                     <div className="content">
