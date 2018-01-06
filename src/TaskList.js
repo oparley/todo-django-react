@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import Task from './Task';
 import axios from 'axios';
 import { TASKS_URL } from './constants';
+import './TaskList.css';
 
 
 class TaskList extends Component{
     constructor(props){
         super(props);
         this.state = {
-            tasks: props.tasks,
+            id: props.id,
+            tasks: [],
         };
 
         this.updateTasks.bind(this);
@@ -32,21 +34,28 @@ class TaskList extends Component{
         );
 
         return(
-            <div className="row">
-                <div className="col-lg-5">
-                    <div className="row">
-                        <h1> Task List </h1>
+            <div className="col task-list">
+                <div className="row">
+                    <div className="col-8">
+                        <h3> Task List </h3>
                     </div>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            {tasks}
+                    <div className="col">
+                        <button className="btn btn-danger float-right" type="button"><i className="far fa-trash-alt"></i></button>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        {tasks}
+                        <div className="row mb-2 pull-right">
+                            <div className="col">
+                                <button className="btn btn-link" >Add a task</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         );
     }
-
 }
 
-export default TaskList
+export default TaskList;

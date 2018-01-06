@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-
 import { TASKS_URL } from './constants';
 
 class Task extends Component{
@@ -46,14 +45,18 @@ class Task extends Component{
         })
     }
 
+    bla(event){
+        console.log(event.target.id)
+    }
+
     render(){
         let task = this.props.task
 
         let text = <input
             type="text"
             className="form-control"
-            onChange={this.changeName}
-            value={task.name}
+            defaultValue={task.name}
+            onBlur={this.changeName}
         />;
 
         if (task.completed) {
@@ -61,15 +64,16 @@ class Task extends Component{
         }
 
         return(
-            <div className="input-group mb-3">
-                {text}
-                <div className="input-group-append">
-                    <button className="btn btn-primary" type="button"><i className="far fa-calendar-alt"></i></button>
-                    <button onClick={this.markAsCompleted} className="btn btn-success" type="button"><i className="far fa-check-square"></i></button>
-                    <button onClick={this.deleteTask} className="btn btn-danger" type="button"><i className="far fa-trash-alt"></i></button>
-                </div>
+            <div className="mb-1">
+                <button className="form-control text-left" onClick={(e) => this.bla(e)} id={task.id}>{task.name}</button>
             </div>
         );
+        /* <div className="input-group-append">
+<button className="btn btn-primary" type="button"><i className="far fa-calendar-alt"></i></button>
+<button onClick={this.markAsCompleted} className="btn btn-success" type="button"><i className="far fa-check-square"></i></button>
+<button onClick={this.deleteTask} className="btn btn-danger" type="button"><i className="far fa-trash-alt"></i></button>
+</div> */
+
     }
 }
 
