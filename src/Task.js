@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Modal from './Modal'
 
-import { TASKS_URL } from './constants';
+import { TASKS_URL, ESC_KEY } from './constants';
 
 class Task extends Component{
     constructor(props){
@@ -25,12 +25,13 @@ class Task extends Component{
 
     changeName(event){
         let name = event.target.value
+        console.log(name)
 
-        if(name.length > 3 || name.length < 50){
-            this.makeRequest('patch', {name: name});
-        } else {
-            alert('Name must be between three and fifty characters');
-        }
+        // if(name.length > 3 || name.length < 50){
+        //     this.makeRequest('patch', {name: name});
+        // } else {
+        //     alert('Name must be between three and fifty characters');
+        // }
     }
 
     deleteTask(event){
@@ -56,63 +57,63 @@ class Task extends Component{
         })
     }
 
+    hideModal(event){
+        if(event.keyCode === ESC_KEY || event.keyCode === undefined){
+            this.setState({
+                showModal: false,
+            })
+        }
+    }
+
     render(){
         let task = this.props.task
 
-        let text = <input
-            type="text"
-            className="input"
-            defaultValue={task.name}
-            onBlur={this.changeName}
-        />;
+        let text = <p className="button input" onClick={(e) => this.showModal(e)} id={task.id}>{task.name}</p>
 
         if (task.completed) {
-            text = <del className="input">{task.name}</del>;
+            text = <del>{text}</del>;
         }
 
         let classNames = 'modal'
 
         if(this.state.showModal){
-            classNames += 'is-active'
+            classNames += ' is-active'
         }
 
         return(
-            <div className="field">
+            <div className="field" onKeyDown={(event) => this.hideModal(event)}>
                 <Modal>
-                <div className={classNames}>
-                    <div className="modal-background"></div>
-                    <div className="modal-card">
-                    <header className="modal-card-head">
-                        <p className="modal-card-title">Modal title</p>
-                        <button className="delete"></button>
-                    </header>
-                    <section className="modal-card-body">
-                        <div className="content">
-                        <h1>Hello World</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.</p>
-
+                    <div className={classNames} >
+                        <div className="modal-background"></div>
+                        <div className="modal-card">
+                        <section className="modal-card-body">
+                            <div className="content">
+                                <h1><input className="input" onBlur={(event) => this.changeName(event)} defaultValue={task.name} /></h1>
+                            </div>
+                        </section>
+                        <footer className="modal-card-foot">
+                            <a className="button is-success">Save changes</a>
+                            <a className="button" onClick={(event) => this.hideModal(event)}>Cancel</a>
+                <button className="button is-primary" type="button"><i className="far fa-calendar-alt"></i></button>
+                <button onClick={this.deleteTask} className="button is-danger" type="button"><i className="far fa-trash-alt"></i></button>
+                        </footer>
                         </div>
-                    </section>
-                    <footer className="modal-card-foot">
-                        <a className="button is-success">Save changes</a>
-                        <a className="button">Cancel</a>
-                    </footer>
                     </div>
-                </div>
                 </Modal>
 
-                <div className="control">
-                    <button className="input button" onClick={(e) => this.showModal(e)} id={task.id}>{task.name}</button>
+                <div className="field has-addons">
+                    <div className="control is-expanded">
+                        {text}
+                    </div>
+                    <div className="control">
+                        <a onClick={this.markAsCompleted} className="button is-success">
+                            <i className="far fa-check-square"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         );
-        /* <div className="input-group-append">
-<button className="btn btn-primary" type="button"><i className="far fa-calendar-alt"></i></button>
-<button onClick={this.markAsCompleted} className="btn btn-success" type="button"><i className="far fa-check-square"></i></button>
-<button onClick={this.deleteTask} className="btn btn-danger" type="button"><i className="far fa-trash-alt"></i></button>
-</div> */
 
     }
 }
-
 export default Task;
