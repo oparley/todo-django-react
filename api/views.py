@@ -1,4 +1,6 @@
 from rest_framework import viewsets
+from rest_framework.decorators import list_route
+from rest_framework.response import Response
 from .serializers import TaskSerializer, TaskListSerializer, UserSerializer
 from . import models
 
@@ -12,6 +14,11 @@ class TaskListViewSet(viewsets.ModelViewSet):
 
     queryset = models.TaskList.objects.all()
     serializer_class = TaskListSerializer
+
+    @list_route()
+    def pks(self, request):
+        return Response(models.TaskList.objects.values_list('id'))
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
