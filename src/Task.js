@@ -23,8 +23,8 @@ class Task extends Component{
         this.makeRequest('patch', {completed: completed});
     }
 
-    changeName(event){
-        let name = event.target.value
+    changeName(e){
+        let name = e.target.value
         console.log(name)
 
         // if(name.length > 3 || name.length < 50){
@@ -34,7 +34,7 @@ class Task extends Component{
         // }
     }
 
-    deleteTask(event){
+    deleteTask(e){
         let confirm = window.confirm("Are you sure?");
         if(confirm){
             this.makeRequest('delete', {});
@@ -51,14 +51,14 @@ class Task extends Component{
         })
     }
 
-    showModal(event){
+    showModal(e){
         this.setState({
             showModal: true,
         })
     }
 
-    hideModal(event){
-        if(event.keyCode === ESC_KEY || event.keyCode === undefined){
+    hideModal(e){
+        if(e.key === ESC_KEY || e.key === undefined){
             this.setState({
                 showModal: false,
             })
@@ -81,19 +81,19 @@ class Task extends Component{
         }
 
         return(
-            <div className="field" onKeyDown={(event) => this.hideModal(event)}>
+            <div className="field" onKeyDown={(e) => this.hideModal(e)} tabIndex="0">
                 <Modal>
                     <div className={classNames} >
                         <div className="modal-background"></div>
                         <div className="modal-card">
                         <section className="modal-card-body">
                             <div className="content">
-                                <h1><input className="input" onBlur={(event) => this.changeName(event)} defaultValue={task.name} /></h1>
+                                <h1><input className="input" onBlur={(e) => this.changeName(e)} defaultValue={task.name} /></h1>
                             </div>
                         </section>
                         <footer className="modal-card-foot">
                             <a className="button is-success">Save changes</a>
-                            <a className="button" onClick={(event) => this.hideModal(event)}>Cancel</a>
+                            <a className="button" onClick={(e) => this.hideModal(e)}>Cancel</a>
                 <button className="button is-primary" type="button"><i className="far fa-calendar-alt"></i></button>
                 <button onClick={this.deleteTask} className="button is-danger" type="button"><i className="far fa-trash-alt"></i></button>
                         </footer>
