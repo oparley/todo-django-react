@@ -8,7 +8,10 @@ class TaskList extends Component{
     constructor(props){
         super(props);
         this.state = {
-            tasks: [],
+            taskList: {
+                tasks: [],
+                name: '',
+            },
         };
 
         this.url = LISTS_URL + props.id;
@@ -21,8 +24,9 @@ class TaskList extends Component{
 
     updateTasks(){
         axios.get(this.url).then((response) => {
+            console.log(response)
             this.setState({
-                tasks: response.data.tasks
+                taskList: response.data
             })
         });
     }
@@ -32,7 +36,7 @@ class TaskList extends Component{
     }
 
     render(){
-        let tasks = this.state.tasks.map((task) =>
+        let tasks =  this.state.taskList.tasks.map((task) =>
                 <Task task={task} key={task.id} onChange={() => {this.updateTasks()}}/>
             );
 
@@ -41,10 +45,10 @@ class TaskList extends Component{
         </p>
 
         return(
-            <div className="tile is-parent is-one-fifth">
+            <div className="tile is-parent">
                 <div className="tile is-child box">
                     <p className="title">
-                        Task List
+                        {this.state.taskList.name}
                         <button className="button is-danger is-pulled-right" type="button" ><i className="far fa-trash-alt"></i></button>
                     </p>
 
