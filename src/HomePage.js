@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {
   BrowserRouter as Router,
   Route,
-//   Redirect
 } from 'react-router-dom';
 import TaskList from './TaskList';
 import axios from 'axios';
@@ -71,7 +70,7 @@ class DashBoard extends Component{
         </div>
 
         if (this.state.renderNew){
-            newList = <TaskList taskList={{id:''}} newList={true} onChange={(e) => this.onCreateList(e)}/>
+            newList = <TaskList taskList={{id:''}} editList={true} onChange={(e) => this.onCreateList(e)}/>
         }
 
 
@@ -90,7 +89,7 @@ class DashBoard extends Component{
                     <div className="container is-fluid">
                         <div className="tile is-ancestor columns is-multiline">
                             {lists}
-                            <div className="column" tabIndex="0" onKeyDown={(e) => this.exitAddList(e)}>
+                            <div className="column is-one-third" tabIndex="0" onKeyDown={(e) => this.exitAddList(e)}>
                                 {newList}
                             </div>
                         </div>

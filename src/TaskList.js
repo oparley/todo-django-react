@@ -1,19 +1,22 @@
 import React, {Component} from 'react';
 import Task from './Task';
 import axios from 'axios';
-import { LISTS_URL, ENTER_KEY } from './constants';
+import { LISTS_URL, ENTER_KEY, ESC_KEY } from './constants';
 
 
 class TaskList extends Component{
     constructor(props){
         super(props);
         this.state = {
-            taskList: props.taskList,
             tasks: [],
+            editList: props.editList,
         };
 
-        this.url = LISTS_URL + props.taskList.id;
-        this.updateTasks.bind(this);
+        if(props.taskList.id){
+            this.url = LISTS_URL + props.taskList.id + '/';
+        } else {
+            this.url = LISTS_URL
+        }
     }
 
     componentDidMount(){
@@ -23,7 +26,7 @@ class TaskList extends Component{
     updateTasks(){
         axios.get(this.url).then((response) => {
             this.setState({
-                taskList: response.data
+                tasks: response.data.tasks || [],
             })
         });
     }
@@ -38,23 +41,39 @@ class TaskList extends Component{
                 name: e.target.value,
             };
 
-            if(this.props.id){
-                this.updateName(data)
-            } else {
-                axios.post(this.url, data).then(
-                    () => this.props.onChange()
-                )
+            let method = 'post'
+
+            if(this.props.taskList.id){
+                method = 'patch'
             }
+
+            this.setState({
+                editList: false,
+            })
+
+            this.updateList(method, data)
+        } else if (e.key === ESC_KEY) {
+            this.setState({
+                editList: false,
+            })
         }
     }
 
     deleteList(){
-        let confirm = window.confirm("Are you sure? \n All related tasks will be deleted");
+        let confirm = window.confirm("Are you sure? \nAll related tasks will be deleted");
         if(confirm){
-            axios.delete(this.url).then(
-                () => this.props.onChange()
-            )
+            this.updateList('delete', {})
         }
+    }
+
+    updateList(method, data){
+        axios({
+            method: method,
+            url: this.url,
+            data: data,
+        }).then((response) => {
+            this.props.onChange()
+        })
     }
 
     updateName(data){
@@ -65,23 +84,24 @@ class TaskList extends Component{
         })
     }
 
+    editName(e){
+        this.setState({
+            editList: true,
+        })
+    }
+
     render(){
         let tasks = '';
         let addTask = '';
         let listName = '';
 
-        addTask = <p onClick={() => this.addTask()} className="button is-link is-outlined">
-            Add a task
-        </p>
 
-        if(this.props.newList){
-            tasks = <div className="field">No tasks here yet</div>
-
+        if(this.state.editList){
             listName = <div className="field">
                 <div className="control">
                     <input className="input is-medium" type="text"
-                        defaultValue={this.state.taskList.name}
-                        placeholder="Task name"
+                        defaultValue={this.props.taskList.name}
+                        placeholder="List name"
                         autoFocus
                         onBlur={(e) => this.createOrUpdateName(e)}
                         onKeyDown={(e) => this.createOrUpdateName(e)}/>
@@ -89,15 +109,21 @@ class TaskList extends Component{
             </div>
 
         } else {
-            tasks = this.state.taskList.tasks.map((task) =>
-                <Task task={task} key={task.id} onChange={() => {this.updateTasks()}}/>
-            );
             listName = <p className="title">
-                {this.state.taskList.name}
-                <button className="button is-danger is-pulled-right" type="button" onClick={() => this.deleteList()} ><i className="far fa-trash-alt"></i></button>
+                <span onClick={(e) => this.editName(e)}>{this.props.taskList.name}</span>
+                <button className="button is-danger is-pulled-right"type="button" onClick={() => this.deleteList()} >
+                    <i className="far fa-trash-alt"></i>
+                </button>
+            </p>
+
+            addTask = <p onClick={() => this.addTask()} className="button is-link is-outlined">
+                Add a task
             </p>
         }
 
+        tasks = this.state.tasks.map((task) =>
+            <Task task={task} key={task.id} onChange={() => {this.updateTasks()}}/>
+        );
 
         return(
             <div className="tile is-parent">
