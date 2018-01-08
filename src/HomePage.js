@@ -12,21 +12,19 @@ class DashBoard extends Component{
     constructor(props){
         super(props)
         this.state = {
-            listIds: [],
             renderNew: false,
+            taskLists: [],
         }
-        this.url = LISTS_URL + 'pks/'
     }
 
-    addList(event){
+    addList(e){
         this.setState({
             renderNew: true,
         })
     }
 
-    exitAddList(event){
-        console.log(event.key)
-        if(event.key === ESC_KEY){
+    exitAddList(e){
+        if(e.key === ESC_KEY){
             this.setState({
                 renderNew: false,
             })
@@ -34,15 +32,22 @@ class DashBoard extends Component{
     }
 
     componentDidMount(){
-        axios.get(this.url).then((response) => {
+        this.updateLists()
+    }
+
+    updateLists(){
+        axios.get(LISTS_URL).then((response) => {
             this.setState({
-                listIds: response.data
+                taskLists: response.data
             })
         });
     }
 
-    mountGrid(){
-
+    onCreateList(e){
+        this.updateLists()
+        this.setState({
+            renderNew: false,
+        })
     }
 
     render(){
@@ -66,13 +71,13 @@ class DashBoard extends Component{
         </div>
 
         if (this.state.renderNew){
-            newList = <TaskList id={''} />
+            newList = <TaskList taskList={{id:''}} newList={true} onChange={(e) => this.onCreateList(e)}/>
         }
 
 
-        let lists = this.state.listIds.map((pk) =>
-            <div className="column is-one-third" key={pk[0]}>
-                <TaskList id={pk[0]}/>
+        let lists = this.state.taskLists.map((list) =>
+            <div className="column is-one-third" key={list.id}>
+                <TaskList taskList={list} onChange={(e) => this.onCreateList(e)}/>
             </div>
         )
 
@@ -84,10 +89,10 @@ class DashBoard extends Component{
                 <main role="main">
                     <div className="container is-fluid">
                         <div className="tile is-ancestor columns is-multiline">
+                            {lists}
                             <div className="column" tabIndex="0" onKeyDown={(e) => this.exitAddList(e)}>
                                 {newList}
                             </div>
-                            {lists}
                         </div>
                     </div>
                 </main>

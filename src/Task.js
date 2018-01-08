@@ -94,8 +94,8 @@ class Task extends Component{
                         <footer className="modal-card-foot">
                             <a className="button is-success">Save changes</a>
                             <a className="button" onClick={(e) => this.hideModal(e)}>Cancel</a>
-                <button className="button is-primary" type="button"><i className="far fa-calendar-alt"></i></button>
-                <button onClick={this.deleteTask} className="button is-danger" type="button"><i className="far fa-trash-alt"></i></button>
+                            <button className="button is-primary" type="button"><i className="far fa-calendar-alt"></i></button>
+                            <button onClick={this.deleteTask} className="button is-danger" type="button"><i className="far fa-trash-alt"></i></button>
                         </footer>
                         </div>
                     </div>
