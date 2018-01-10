@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Modal from './Modal'
+import DatePicker from 'react-datepicker';
+// import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 import { TASKS_URL, ESC_KEY } from './constants';
 
@@ -68,7 +73,9 @@ class Task extends Component{
     render(){
         let task = this.props.task
 
-        let text = <p className="button input" onClick={(e) => this.showModal(e)} id={task.id}>{task.name}</p>
+        let text = <p className="button input" onClick={(e) => this.showModal(e)} id={task.id}>
+            {task.name}
+        </p>
 
         if (task.completed) {
             text = <del>{text}</del>;
@@ -80,26 +87,51 @@ class Task extends Component{
             classNames += ' is-active'
         }
 
-        return(
-            <div className="field" onKeyDown={(e) => this.hideModal(e)} tabIndex="0">
-                <Modal>
-                    <div className={classNames} >
-                        <div className="modal-background"></div>
-                        <div className="modal-card">
-                        <section className="modal-card-body">
-                            <div className="content">
-                                <h1><input className="input" onBlur={(e) => this.changeName(e)} defaultValue={task.name} /></h1>
-                            </div>
-                        </section>
-                        <footer className="modal-card-foot">
-                            <a className="button is-success">Save changes</a>
-                            <a className="button" onClick={(e) => this.hideModal(e)}>Cancel</a>
-                            <button className="button is-primary" type="button"><i className="far fa-calendar-alt"></i></button>
-                            <button onClick={this.deleteTask} className="button is-danger" type="button"><i className="far fa-trash-alt"></i></button>
-                        </footer>
+        let modal = <Modal>
+            <div className={classNames} onKeyDown={(e) => this.hideModal(e)} tabIndex="0">
+                <div className="modal-background"></div>
+                <div className="modal-card">
+                <section className="modal-card-head">
+                    <p className="modal-card-title">
+                        <b>List </b>{this.props.listName}
+                    </p>
+                    <button className="delete" aria-label="close"></button>
+                </section>
+                <section className="modal-card-body">
+                    <div className="content">
+                    <div className="field">
+                        <label className="label">Name</label>
+                        <div className="control">
+                            <input className="input" type="text"
+                                onBlur={(e) => this.changeName(e)}
+                                defaultValue={task.name} />
                         </div>
                     </div>
-                </Modal>
+                    <div className="columns">
+
+                            <div className="column">
+                                Status <span> {task.completed} </span>
+                            </div>
+                            <div className="column">
+                                <DatePicker inline onChange={(e) => e}
+                                    selected={task.deadline}/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <footer className="modal-card-foot">
+                    <a className="button is-success"><i className="far fa-save"></i></a>
+                    <a className="button" onClick={(e) => this.hideModal(e)}>Cancel</a>
+                    <button className="button is-primary" type="button"><i className="far fa-calendar-alt"></i></button>
+                    <button onClick={this.deleteTask} className="button is-danger" type="button"><i className="far fa-trash-alt"></i></button>
+                </footer>
+                </div>
+            </div>
+        </Modal>
+
+        return(
+            <div className="field" onKeyDown={(e) => this.hideModal(e)} tabIndex="0">
+                {modal}
 
                 <div className="field has-addons">
                     <div className="control is-expanded">

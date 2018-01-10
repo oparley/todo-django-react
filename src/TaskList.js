@@ -122,7 +122,7 @@ class TaskList extends Component{
         }
 
         tasks = this.state.tasks.map((task) =>
-            <Task task={task} key={task.id} onChange={() => {this.updateTasks()}}/>
+            <Task task={task} key={task.id} listName={this.props.taskList.name} onChange={() => {this.updateTasks()}}/>
         );
 
         return(
