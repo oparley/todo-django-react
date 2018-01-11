@@ -18,7 +18,6 @@ class Task extends Component{
 
         this.url = TASKS_URL + props.task.id + '/';
 
-        this.changeName = this.changeName.bind(this);
         this.markAsCompleted = this.markAsCompleted.bind(this);
         this.deleteTask = this.deleteTask.bind(this);
     }
@@ -26,17 +25,6 @@ class Task extends Component{
     markAsCompleted(){
         let completed = !this.props.task.completed
         this.makeRequest('patch', {completed: completed});
-    }
-
-    changeName(e){
-        let name = e.target.value
-        console.log(name)
-
-        // if(name.length > 3 || name.length < 50){
-        //     this.makeRequest('patch', {name: name});
-        // } else {
-        //     alert('Name must be between three and fifty characters');
-        // }
     }
 
     deleteTask(e){
@@ -70,6 +58,14 @@ class Task extends Component{
         }
     }
 
+    editTask(key, value){
+        console.log(value.format())
+    }
+
+    saveTask(){
+        this.makeRequest('patch', this.editedTask);
+    }
+
     render(){
         let task = this.props.task
 
@@ -95,35 +91,60 @@ class Task extends Component{
                     <p className="modal-card-title">
                         <b>List </b>{this.props.listName}
                     </p>
-                    <button className="delete" aria-label="close"></button>
+                    <button className="delete" aria-label="close" onClick={(e) => this.hideModal(e)}></button>
                 </section>
                 <section className="modal-card-body">
                     <div className="content">
-                    <div className="field">
-                        <label className="label">Name</label>
-                        <div className="control">
-                            <input className="input" type="text"
-                                onBlur={(e) => this.changeName(e)}
-                                defaultValue={task.name} />
-                        </div>
-                    </div>
-                    <div className="columns">
-
-                            <div className="column">
-                                Status <span> {task.completed} </span>
+                        <div className="columns">
+                            <div className="column is-half">
+                                <div className="columns">
+                                    <div className="column">
+                                        <label className="label"> Task Name</label>
+                                        <input className="input" type="text"
+                                            onChange={(e) => this.editTask('name', e.target.value)}
+                                            value={task.name} />
+                                    </div>
+                                </div>
+                                <div className="columns">
+                                    <div className="column">
+                                        <label className="label"> Status</label>
+                                        <label className="checkbox">
+                                            <input type="checkbox"
+                                                onChange={(e) => this.editTask('completed', e.target.value)}
+                                                checked={task.completed}/>
+                                            Completed
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="columns">
+                                    <div className="column">
+                                        <label className="label"> Assignee</label>
+                                        <input className="input" type="text"
+                                            onChange={(e) => this.editTask('user', e.target.value)}
+                                            value={task.assignee}/>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="column">
-                                <DatePicker inline onChange={(e) => e}
-                                    selected={task.deadline}/>
+                            <div className="column is-half">
+                                <div className="field">
+                                    <label className="label"> Deadline</label>
+                                    <DatePicker inline
+                                        onChange={(e) => this.editTask('deadline', e)}
+                                        selected={task.deadline}/>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
                 <footer className="modal-card-foot">
-                    <a className="button is-success"><i className="far fa-save"></i></a>
-                    <a className="button" onClick={(e) => this.hideModal(e)}>Cancel</a>
-                    <button className="button is-primary" type="button"><i className="far fa-calendar-alt"></i></button>
-                    <button onClick={this.deleteTask} className="button is-danger" type="button"><i className="far fa-trash-alt"></i></button>
+                    <button onClick={(e) => this.saveTask(e)} className="button is-success is-outlined">
+                        <span className="icon"><i className="far fa-save"></i></span>
+                        <span>Save</span>
+                    </button>
+                    <button onClick={(e) => this.deleteTask(e)} className="button is-danger is-outlined" type="button">
+                        <span className="icon"><i className="far fa-trash-alt"></i></span>
+                        <span>Delete</span>
+                    </button>
                 </footer>
                 </div>
             </div>
