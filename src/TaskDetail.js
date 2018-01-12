@@ -1,31 +1,26 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import Modal from './Modal'
 import DatePicker from 'react-datepicker';
-import {  BrowserRouter as Router } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-// import moment from 'moment';
+import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
 
-import { TASKS_URL, ESC_KEY } from './constants';
+import { TASKS_URL } from './constants';
 
-class Task extends Component{
+class TaskDetail extends Component{
     constructor(props){
         super(props);
-        this.state = props.task
-        this.state.showModal = false
+        this.state = {}
 
-        this.url = TASKS_URL + props.task.id + '/';
+        this.url = TASKS_URL + props.id;
 
-        this.markAsCompleted = this.markAsCompleted.bind(this);
-        this.deleteTask = this.deleteTask.bind(this);
     }
 
-    markAsCompleted(){
-        let completed = !this.props.task.completed
-        this.makeRequest('patch', {completed: completed});
+    componentDidMount() {
+        this.makeRequest('get', {});
     }
 
     deleteTask(e){
@@ -41,50 +36,31 @@ class Task extends Component{
             url: this.url,
             data: data,
         }).then((response) => {
-            this.props.onChange()
+            if (method === 'get'){
+                this.setState(response.data)
+            }
         })
-    }
-
-    showModal(e){
-        this.setState({
-            showModal: true,
-        })
-    }
-
-    hideModal(e){
-        if(e.key === ESC_KEY || e.key === undefined){
-            this.setState({
-                showModal: false,
-            })
-        }
     }
 
     editTask(key, value){
-        console.log(key, value)
-        let tmp = {}
-        tmp[key] = value
-        this.setState(tmp)
+        let task = {}
+        task[key] = value
+        this.setState(task)
     }
 
     saveTask(){
-        this.makeRequest('patch', this.editedTask);
+        this.makeRequest('patch', this.state.task);
     }
 
     render(){
-        let task = this.props.task
-
-
         return(
-            <div className={classNames} onKeyDown={(e) => this.hideModal(e)} tabIndex="0">
-                <div className="modal-background"></div>
-                <div className="modal-card">
-                <section className="modal-card-head">
-                    <p className="modal-card-title">
-                        <b>List </b>{this.props.listName}
+            <div >
+                <section >
+                    <p >
+                        <b>List </b>
                     </p>
-                    <button className="delete" aria-label="close" onClick={(e) => this.hideModal(e)}></button>
                 </section>
-                <section className="modal-card-body">
+                <section >
                     <div className="content">
                         <div className="columns">
                             <div className="column is-half">
@@ -101,7 +77,7 @@ class Task extends Component{
                                         <label className="label"> Status</label>
                                         <label className="checkbox">
                                             <input type="checkbox"
-                                                onChange={(e) => this.editTask('completed', e.target.value)}
+                                                onChange={(e) => this.editTask('completed', e.target.checked)}
                                                 checked={this.state.completed}/>
                                             Completed
                                         </label>
@@ -120,14 +96,14 @@ class Task extends Component{
                                 <div className="field">
                                     <label className="label"> Deadline</label>
                                     <DatePicker inline
-                                        onChange={(e) => this.editTask('deadline', e.format())}
+                                        onChange={(e) => this.editTask('deadline', moment(e.format())) }
                                         selected={this.state.deadline}/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-                <footer className="modal-card-foot">
+                <footer >
                     <button onClick={(e) => this.saveTask(e)} className="button is-success is-outlined">
                         <span className="icon"><i className="far fa-save"></i></span>
                         <span>Save</span>
@@ -137,10 +113,10 @@ class Task extends Component{
                         <span>Delete</span>
                     </button>
                 </footer>
-                </div>
             </div>
         );
 
     }
 }
-export default Task;
+
+export default TaskDetail;

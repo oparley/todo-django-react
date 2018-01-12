@@ -51,7 +51,6 @@ class Task extends Component{
 
         return(
             <div className="field" onKeyDown={(e) => this.hideModal(e)} tabIndex="0">
-                {/* {modal} */}
 
                 <div className="field has-addons">
                     <div className="control is-expanded">

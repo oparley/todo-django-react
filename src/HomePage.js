@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-} from 'react-router-dom';
-import TaskList from './TaskList';
+import { Route, Switch } from 'react-router-dom';
 import axios from 'axios';
+
+import TaskList from './TaskList';
+import TaskDetail from './TaskDetail';
 import {LISTS_URL, ESC_KEY} from './constants'
 
 class DashBoard extends Component{
@@ -103,9 +102,10 @@ class DashBoard extends Component{
 class ProtectedPage extends Component{
     render(){
         return(
-            <Router>
+            <Switch>
                 <Route exact path="/" render={() => <DashBoard/>}/>
-            </Router>
+                <Route path="/tasks/:id" render={(e) => <TaskDetail id={e.match.params.id}/>}/>
+            </Switch>
         );
     }
 }
