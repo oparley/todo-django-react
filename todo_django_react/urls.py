@@ -15,7 +15,9 @@ Including another URLconf
 """
 
 from django.urls import path, include
+from rest_framework.authtoken import views as drf_views
 
 urlpatterns = [
     path('', include('api.urls')),
+    path('login/', drf_views.obtain_auth_token),
 ]
