@@ -23,3 +23,5 @@ yarn-error.log*
 *.sqlite*
 .vagrant
 *.pyc
+.vscode
+*.pyc

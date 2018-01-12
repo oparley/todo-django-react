@@ -25,7 +25,7 @@ SECRET_KEY = '9m2c6c^e4r8zz#0#+^l$ox&xnrutb7(@ufbvt@mh-)mvf+(iu3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['todo-django-react-api.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -125,9 +125,8 @@ USE_TZ = True
 
 STATIC_URL = '/public/'
 
-CORS_ORIGIN_WHITELIST = [
-    'localhost:3000',
-]
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = ['todo-django-react.surge.sh/', 'localhost:3000']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
