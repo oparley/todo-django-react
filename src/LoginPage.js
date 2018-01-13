@@ -28,7 +28,7 @@ class LoginPage extends Component{
     }
 
     render(){
-        let page = <div className="modal is-active">
+        let page = <div className="modal is-active notification is-link">
             <div className="box">
                 <div className="level"> Login </div>
                 <div className="level">

@@ -36,13 +36,18 @@ class BasePage extends Component{
             </div>
         </nav>
 
-        let mainContent = <Switch>
-            <Route exact path="/" render={() => <HomePage/>}/>
-            <Route exact path="/lists/:listid/tasks/:id" render={(e) =>
-                <TaskDetail listid={e.match.params.listid} id={e.match.params.id}/>}
-            />
-            <Redirect to="/"/>
-        </Switch>
+        let mainContent = <div>
+            {navBar}
+
+            <br/>
+            <Switch>
+                <Route exact path="/" render={() => <HomePage/>}/>
+                <Route exact path="/lists/:listid/tasks/:id" render={(e) =>
+                    <TaskDetail listid={e.match.params.listid} id={e.match.params.id}/>}
+                    />
+                <Redirect to="/"/>
+            </Switch>
+        </div>
 
         if(!this.state.authenticated){
             mainContent = <Switch>
@@ -54,11 +59,7 @@ class BasePage extends Component{
 
         return(
         <Router>
-            <div>
-                {navBar}
-                <br/>
-                    {mainContent}
-            </div>
+            {mainContent}
         </Router>
 
     );}
