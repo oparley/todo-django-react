@@ -1,20 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import HomePage from './HomePage';
-import { BrowserRouter as Router, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 
 let el = document.getElementById('root');
 
-let navBar = <nav className="navbar is-info" aria-label="main navigation">
+let navBar = <nav className="navbar is-link" aria-label="main navigation">
     <div className="navbar-brand">
         <span className="navbar-item">
-            <NavLink to="/">TO-DO LIST</NavLink>
+            <Link className="button is-link" to="/">TO-DO LIST</Link>
         </span>
-
-        <button className="button navbar-burger">
-            <NavLink to="/logout">Logout</NavLink>
-        </button>
     </div>
 </nav>
 
