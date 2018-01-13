@@ -39,7 +39,7 @@ class Task extends Component{
     render(){
         let task = this.props.task
 
-        let text = <Link className="button input" to={`/tasks/${task.id}`}>
+        let text = <Link className="button input" to={`lists/${this.props.listid}/tasks/${task.id}`}>
             {task.name}
         </Link>
 

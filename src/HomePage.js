@@ -90,7 +90,9 @@ class ProtectedPage extends Component{
         return(
             <Switch>
                 <Route exact path="/" render={() => <DashBoard/>}/>
-                <Route path="/tasks/:id" render={(e) => <TaskDetail id={e.match.params.id}/>}/>
+                <Route path="/lists/:listid/tasks/:id" render={(e) =>
+                    <TaskDetail listid={e.match.params.listid} id={e.match.params.id}/>}
+                />
             </Switch>
         );
     }
