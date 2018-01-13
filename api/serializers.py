@@ -11,9 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    task_list = serializers.SlugRelatedField(read_only=True, slug_field='name')
-    creator = serializers.SlugRelatedField(read_only=True, slug_field='username')
-    assignee = UserSerializer()
+    assignee = UserSerializer(required=False)
 
     class Meta:
         model = models.Task

@@ -4,7 +4,7 @@ from datetime import date
 
 class Task(models.Model):
     name = models.CharField(max_length=50)
-    completed = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False, blank=True)
     completed_at = models.DateField(default=None, null=True, blank=True)
     deadline = models.DateField(default=None, null=True, blank=True)
     creator = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, related_name='tasks')
