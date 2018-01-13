@@ -15,11 +15,6 @@ class TaskListViewSet(viewsets.ModelViewSet):
     queryset = models.TaskList.objects.all()
     serializer_class = TaskListSerializer
 
-    @list_route()
-    def pks(self, request):
-        return Response(models.TaskList.objects.values_list('id'))
-
-
 
 class UserViewSet(viewsets.ModelViewSet):
     tasks = TaskSerializer(many=True, read_only=True)

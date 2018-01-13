@@ -7,7 +7,8 @@ class Task(models.Model):
     completed = models.BooleanField(default=False)
     completed_at = models.DateField(default=None, null=True, blank=True)
     deadline = models.DateField(default=None, null=True, blank=True)
-    user = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, related_name='tasks')
+    creator = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, related_name='tasks')
+    assignee = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='+')
     task_list = models.ForeignKey('TaskList', on_delete=models.CASCADE, related_name='tasks')
 
 
