@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { Link, Redirect } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
 
-import {AUTH_URL} from './constants'
+import { USERS_URL } from './constants'
 
 class LoginPage extends Component{
     constructor(props){
@@ -12,7 +12,11 @@ class LoginPage extends Component{
             credentials: {
                 username: '',
                 password: '',
+                password_confirm: '',
+                email: '',
             },
+            errors: undefined,
+            completed: false,
         }
     }
 
@@ -22,17 +26,21 @@ class LoginPage extends Component{
         this.setState({credentials: cred})
     }
 
-    login(){
-        axios.post(AUTH_URL, this.state.credentials).then((response) => {
-            localStorage.setItem('token', response.data.token)
-            this.props.login()
-        }).catch((error) => console.log(error.response));
+    signup(){
+        let credentials = this.state.credentials;
+        if(credentials.password !== credentials.password_confirm){
+            this.setState({errors: {password: "Passwords don't match"}})
+        } else {
+            axios.post(USERS_URL, this.state.credentials).then((response) => {
+                this.setState({completed: true})
+            }).catch((error) => console.log(error.response));
+        }
     }
 
     render(){
         let page = <div className="modal is-active notification is-link">
             <div className="box">
-                <div className="level"> Login </div>
+                <div className="level"> <h1>Sign Up </h1></div>
                 <div className="level">
                     <p className="control">
                         <input className="input" type="text" placeholder="username"
@@ -42,32 +50,43 @@ class LoginPage extends Component{
                 </div>
                 <div className="level">
                     <p className="control">
+                        <input className="input" type="email" placeholder="email" name="email"
+                            value={this.state.credentials.email}
+                            onChange={(e) => this.updateCredentials('email', e.target.value)}/>
+                    </p>
+                </div>
+                <div className="level">
+                    <p className="control">
                         <input className="input" type="password" placeholder="password" name="password"
                             value={this.state.credentials.password}
                             onChange={(e) => this.updateCredentials('password', e.target.value)}/>
                     </p>
                 </div>
-                <div className="field is-grouped is-grouped-centered">
+                <div className="level">
                     <p className="control">
-                        <a onClick={() => this.login()} className="button is-success">
-                            <span>Login</span>
-                        </a>
+                        <input className="input" type="password" placeholder="confirm password" name="password"
+                            value={this.state.credentials.password_confirm}
+                            onChange={(e) => this.updateCredentials('password_confirm', e.target.value)}/>
                     </p>
                 </div>
                 <div className="field is-grouped is-grouped-centered">
                     <p className="control">
-                        <a className="button is-text">
-                            <span>Forgot my password</span>
-                        </a>
+                        <Link to="/login" className="button is-text">
+                            <span>Cancel</span>
+                        </Link>
                     </p>
                     <p className="control">
-                        <Link to="/signup" className="button is-text">
+                        <a onClick={() => this.signup()} className="button is-success">
                             <span>Signup</span>
-                        </Link>
+                        </a>
                     </p>
                 </div>
             </div>
         </div>
+
+        if(this.state.completed){
+            page = <Redirect to="/login" />
+        }
 
         return(page);
     }

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Link, Route, Switch, Redirect } from 'react-router-dom';
 
 import LoginPage from './LoginPage'
+import SignupPage from './SignupPage'
 import TaskDetail from './TaskDetail'
 import HomePage from './HomePage'
 
@@ -52,7 +53,14 @@ class BasePage extends Component{
         if(!this.state.authenticated){
             mainContent = <Switch>
                 <Route exact path="/login" render={() =>
-                    <LoginPage authenticated={this.state.authenticated} login={() => this.setState({authenticated: true})} /> } />
+                    <LoginPage authenticated={this.state.authenticated} login={() => this.setState({authenticated: true})} /> }
+                />
+                <Route exact path="/signup" render={() =>
+                    <SignupPage /> }
+                />
+                {/* <Route exact path="/recover" render={() =>
+                    <LoginPage authenticated={this.state.authenticated} login={() => this.setState({authenticated: true})} /> }
+                /> */}
                 <Redirect to="/login"/>
             </Switch>
         }

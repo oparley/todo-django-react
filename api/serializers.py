@@ -6,7 +6,7 @@ from datetime import date
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ('id', 'username', 'password')
+        fields = ('id', 'username', 'password', 'email')
         extra_kwargs = {'password': {'write_only': True}}
 
 
