@@ -17,14 +17,6 @@ class TaskSerializer(serializers.ModelSerializer):
         model = models.Task
         fields = '__all__'
 
-    def update(self, instance, validated_data):
-        if 'completed' in validated_data and validated_data['completed']:
-            instance.completed_at = date.today()
-        else:
-            instance.completed_at = None
-
-        return super().update(instance, validated_data)
-
     def to_internal_value(self, data):
         assignee = data.pop('assignee', None)
         if assignee:

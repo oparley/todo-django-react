@@ -133,3 +133,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'ea2ff13916f945'
+EMAIL_HOST_PASSWORD = '38a24598f3256e'
+EMAIL_PORT = '2525'
