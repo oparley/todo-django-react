@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import TaskList from './TaskList';
 import TaskDetail from './TaskDetail';
+import LoginPage from './LoginPage'
 import {LISTS_URL, ESC_KEY} from './constants'
 
 class DashBoard extends Component{
@@ -89,7 +90,7 @@ class ProtectedPage extends Component{
     render(){
         return(
             <Switch>
-                <Route exact path="/" render={() => <DashBoard/>}/>
+                <Route exact path="/" render={() => <LoginPage/>}/>
                 <Route path="/lists/:listid/tasks/:id" render={(e) =>
                     <TaskDetail listid={e.match.params.listid} id={e.match.params.id}/>}
                 />
