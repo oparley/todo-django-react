@@ -7,8 +7,6 @@ import { TASKS_URL } from './constants';
 class Task extends Component{
     constructor(props){
         super(props);
-        this.state = props.task
-        this.state.showModal = false
 
         this.url = TASKS_URL + props.task.id + '/';
 
@@ -50,8 +48,7 @@ class Task extends Component{
         }
 
         return(
-            <div className="field" onKeyDown={(e) => this.hideModal(e)} tabIndex="0">
-
+            <div className="field" tabIndex="0">
                 <div className="field has-addons">
                     <div className="control is-expanded">
                         {text}

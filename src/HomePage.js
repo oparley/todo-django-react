@@ -49,17 +49,6 @@ class DashBoard extends Component{
     }
 
     render(){
-        let navBar = <nav className="navbar is-black" aria-label="main navigation">
-            <div className="navbar-brand">
-                <span className="navbar-item">
-                    TO-DO LIST
-                </span>
-
-                <button className="button navbar-burger">
-                </button>
-            </div>
-        </nav>
-
         let newList = <div className="tile is-parent">
             <div className="tile is-child box">
                 <div className="title" onClick={(e) => this.addList(e)}>
@@ -81,9 +70,6 @@ class DashBoard extends Component{
 
         return(
             <div>
-                {navBar}
-                <br/>
-
                 <main role="main">
                     <div className="container is-fluid">
                         <div className="tile is-ancestor columns is-multiline">
