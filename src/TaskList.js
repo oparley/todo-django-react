@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Task from './Task';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { LISTS_URL, ENTER_KEY, ESC_KEY } from './constants';
 
 
@@ -29,10 +30,6 @@ class TaskList extends Component{
                 tasks: response.data.tasks || [],
             })
         });
-    }
-
-    addTask(){
-        console.log('lkbjalkjdaklaj')
     }
 
     createOrUpdateName(e){
@@ -94,13 +91,13 @@ class TaskList extends Component{
         let tasks = '';
         let addTask = '';
         let listName = '';
-
+        let list = this.props.taskList
 
         if(this.state.editList){
             listName = <div className="field">
                 <div className="control">
                     <input className="input is-medium" type="text"
-                        defaultValue={this.props.taskList.name}
+                        defaultValue={list.name}
                         placeholder="List name"
                         autoFocus
                         onBlur={(e) => this.createOrUpdateName(e)}
@@ -110,19 +107,19 @@ class TaskList extends Component{
 
         } else {
             listName = <p className="title">
-                <span onClick={(e) => this.editName(e)}>{this.props.taskList.name}</span>
+                <span onClick={(e) => this.editName(e)}>{list.name}</span>
                 <button className="button is-danger is-pulled-right"type="button" onClick={() => this.deleteList()} >
                     <i className="far fa-trash-alt"></i>
                 </button>
             </p>
 
-            addTask = <p onClick={() => this.addTask()} className="button is-link is-outlined">
+            addTask = <Link className="button is-link is-outlined" to={`lists/${list.id}/tasks/new/`}>
                 Add a task
-            </p>
+            </Link>
         }
 
         tasks = this.state.tasks.map((task) =>
-            <Task task={task} key={task.id} listName={this.props.taskList.name} onChange={() => {this.updateTasks()}}/>
+            <Task task={task} key={task.id} listid={list.id} onChange={() => {this.updateTasks()}}/>
         );
 
         return(

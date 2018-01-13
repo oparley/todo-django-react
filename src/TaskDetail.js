@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
@@ -19,19 +18,26 @@ class TaskDetail extends Component{
             redirect: false,
             users:[],
             task: {
-                name: '',
-                completed: '',
-                assignee: {},
-                deadline: '',
+                name: undefined,
+                completed: undefined,
+                assignee: undefined,
+                deadline: undefined,
+                task_list: this.props.listid,
+                creator: 1 //CHANGE THIS WHEN I ADD AUTH
             },
         }
-
-        this.url = TASKS_URL + props.id + '/';
+        this.url = TASKS_URL;
+        this.method = 'post';
     }
 
     componentDidMount() {
+        if(!isNaN(this.props.id)){
+            this.url = TASKS_URL + this.props.id + '/';
+            this.method = 'patch';
+            this.makeRequest('get');
+        }
+
         this.getUsers();
-        this.makeRequest('get');
     }
 
     deleteTask(e){
@@ -41,7 +47,7 @@ class TaskDetail extends Component{
         }
     }
 
-    makeRequest(method){
+    makeRequest(method = this.method){
         axios({
             method: method,
             url: this.url,
@@ -56,18 +62,18 @@ class TaskDetail extends Component{
     }
 
     editTask(key, value){
-        let task = {}
+        let task = this.state.task
         task[key] = value
         this.setState({task: task})
     }
 
     saveTask(){
-        this.makeRequest('patch');
+        this.makeRequest();
     }
 
     setDeadline(date){
         let day = moment(date).format('YYYY-MM-DD');
-        this.setState({deadline: day})
+        this.editTask('deadline', day)
     }
 
     getUsers(){
@@ -78,6 +84,17 @@ class TaskDetail extends Component{
     }
 
     render(){
+        let deleteButton = <p className="control">
+            <a onClick={(e) => this.deleteTask(e)} className="button is-danger">
+                <span className="icon"><i className="far fa-trash-alt"></i></span>
+                <span>Delete</span>
+            </a>
+        </p>
+
+        if(isNaN(this.props.id)){
+            deleteButton = null
+        }
+
         let el = <div>
             <div className="columns" >
                 <div className="column is-three-fifths is-offset-one-fifth">
@@ -132,12 +149,7 @@ class TaskDetail extends Component{
                         <span>Save</span>
                     </a>
                 </p>
-                <p className="control">
-                    <a onClick={(e) => this.deleteTask(e)} className="button is-danger">
-                        <span className="icon"><i className="far fa-trash-alt"></i></span>
-                        <span>Delete</span>
-                    </a>
-                </p>
+                {deleteButton}
             </div>
         </div>
 
