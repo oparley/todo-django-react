@@ -26,7 +26,7 @@ class TaskList(models.Model):
 
 
 class Report(models.Model):
-    created_at = models.DateField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateField(default=date.today)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reports')
     text = models.TextField()
     text_html = models.TextField()

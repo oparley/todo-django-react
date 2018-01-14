@@ -14,3 +14,19 @@ It's recommended to use vagrant for virtualization of your environment. Everythi
 8. Run `./manage.py runserver 0.0.0.0:8000` to run the Django server
 9. On another terminal window run `npm run start` to start the React server.
 10. Enjoy the application at `localhost:3000`
+
+
+### Generate reports
+
+This application can generate automated reports, that show the completed tasks that day, for each user.
+
+To run it as a crontab, run `crontab -e` and add the folloging line to it. This cron will run the command and store the logs in `log`:
+
+```
+0 23 * * * (. /home/vagrant/venv/bin/activate && python /vagrant/manage.py makereports) >> /vagrant/log 2>&1
+```
+
+If you're not running the app on vagrant or with a virtual env change it to:
+```
+0 23 * * * * python3 path/to/manage.py makereports
+```

@@ -8,12 +8,6 @@ class TaskViewSet(viewsets.ModelViewSet):
     queryset = models.Task.objects.all()
     serializer_class = TaskSerializer
 
-    @list_route()
-    def reports(self, request):
-        print(request.data)
-        print(request.query_params)
-        return Response()
-
 
 class TaskListViewSet(viewsets.ModelViewSet):
     tasks = TaskSerializer(many=True, read_only=True)
@@ -27,3 +21,14 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = models.User.objects.all()
     serializer_class = UserSerializer
+
+    @list_route()
+    def report(self, request):
+        user = request.user
+        day = request.query_params['day']
+
+        try:
+            report = user.reports.get(created_at=day)
+            return Response(report.text)
+        except:
+            return Response('No report available today')

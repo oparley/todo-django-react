@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 export const ESC_KEY = 'Escape';
 export const ENTER_KEY = 'Enter';
 
@@ -12,12 +10,4 @@ export const AUTH_URL = BASE_URL + 'login/';
 export const TASKS_URL = BASE_URL + 'tasks/';
 export const LISTS_URL = BASE_URL + 'lists/';
 export const USERS_URL = BASE_URL + 'users/';
-
-let token = localStorage.getItem('token')
-
-export const api = axios.create({
-    baseURL: BASE_URL,
-    headers: {
-        Authorization: `Token ${token}`
-    }
-})
+export const REPORTS_URL = USERS_URL + 'report/';
