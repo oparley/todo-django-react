@@ -3,18 +3,30 @@ from rest_framework.decorators import list_route, permission_classes
 from rest_framework.response import Response
 from .serializers import TaskSerializer, TaskListSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
-from . import models
+from .models import Task, TaskList, User
 
 class TaskViewSet(viewsets.ModelViewSet):
-    queryset = models.Task.objects.all()
+    queryset = Task.objects.none()
     serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Task.objects.filter(task_list__creator=user)
 
 
 class TaskListViewSet(viewsets.ModelViewSet):
+    queryset = TaskList.objects.none()
+    serializer_class = TaskListSerializer
+
     tasks = TaskSerializer(many=True, read_only=True)
 
-    queryset = models.TaskList.objects.all()
-    serializer_class = TaskListSerializer
+    def get_queryset(self):
+        user = self.request.user
+        return user.lists.all()
+
+    def create(self, request, *args, **kwargs):
+        request.data['creator'] = request.user.id
+        return super().create(request, *args, **kwargs)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -27,7 +39,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     tasks = TaskSerializer(many=True, read_only=True)
 
-    queryset = models.User.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [UserPermission, ]
 

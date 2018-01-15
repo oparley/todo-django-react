@@ -23,7 +23,6 @@ class TaskDetail extends Component{
                 assignee: undefined,
                 deadline: undefined,
                 task_list: this.props.listid,
-                creator: 1 //CHANGE THIS WHEN I ADD AUTH
             },
         }
         this.url = TASKS_URL;

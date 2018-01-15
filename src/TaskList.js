@@ -70,7 +70,7 @@ class TaskList extends Component{
             data: data,
         }).then((response) => {
             this.props.onChange()
-        })
+        }).catch(error => console.log(error.response))
     }
 
     updateName(data){

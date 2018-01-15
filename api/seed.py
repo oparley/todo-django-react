@@ -20,12 +20,12 @@ for i in range(0, 10):
 
 range_lists = randint(3, 5)
 for i in range(0, range_lists):
-    tl = TaskList.objects.create(name=fake.sentence(nb_words=2))
+    tl = TaskList.objects.create(name=fake.sentence(nb_words=2), creator=choice(users))
     size = randint(3, 7)
     for j in range(0, size):
         completed = bool(randint(0, 1))
         t = Task.objects.create(
             name=fake.sentence(nb_words=3),
             task_list_id=tl.id, completed=completed,
-            creator=choice(users), assignee=choice(users)
+            assignee=choice(users)
         )
