@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios';
+import { API } from './BasePage'
 
 import TaskList from './TaskList';
 
@@ -33,7 +33,7 @@ class HomePage extends Component{
     }
 
     updateLists(){
-        axios.get(LISTS_URL).then((response) => {
+        API().get(LISTS_URL).then((response) => {
             this.setState({
                 taskLists: response.data
             })

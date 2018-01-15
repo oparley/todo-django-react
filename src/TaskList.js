@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Task from './Task';
-import axios from 'axios';
+import { API } from './BasePage'
 import { Link } from 'react-router-dom';
 import { LISTS_URL, ENTER_KEY, ESC_KEY } from './constants';
 
@@ -25,7 +25,7 @@ class TaskList extends Component{
     }
 
     updateTasks(){
-        axios.get(this.url).then((response) => {
+        API().get(this.url).then((response) => {
             this.setState({
                 tasks: response.data.tasks || [],
             })
@@ -64,7 +64,7 @@ class TaskList extends Component{
     }
 
     updateList(method, data){
-        axios({
+        API().request({
             method: method,
             url: this.url,
             data: data,
@@ -74,7 +74,7 @@ class TaskList extends Component{
     }
 
     updateName(data){
-        axios.patch(this.url, data).then((response) => {
+        API().patch(this.url, data).then((response) => {
             this.setState({
                 taskList: response.data,
             })

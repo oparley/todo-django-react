@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import { API } from './BasePage'
 
 import { Link } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ class LoginPage extends Component{
     }
 
     login(){
-        axios.post(AUTH_URL, this.state.credentials).then((response) => {
+        API().post(AUTH_URL, this.state.credentials).then((response) => {
             localStorage.setItem('token', response.data.token)
             this.props.login()
         }).catch((error) => console.log(error.response));

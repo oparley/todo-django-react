@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import { API } from './BasePage'
 import { Redirect, Link } from 'react-router-dom';
 import moment from 'moment';
 
@@ -48,7 +48,7 @@ class TaskDetail extends Component{
     }
 
     makeRequest(method = this.method){
-        axios({
+        API().request({
             method: method,
             url: this.url,
             data: this.state.task,
@@ -77,7 +77,7 @@ class TaskDetail extends Component{
     }
 
     getUsers(){
-        axios.get(USERS_URL)
+        API().get(USERS_URL)
         .then((response) => {
             this.setState({users: response.data})
         })

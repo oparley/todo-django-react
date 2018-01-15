@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import { API } from './BasePage'
 import { Link } from 'react-router-dom';
 
 import { TASKS_URL } from './constants';
@@ -27,7 +27,7 @@ class Task extends Component{
     }
 
     makeRequest(method, data){
-        axios({
+        API().request({
             method: method,
             url: this.url,
             data: data,

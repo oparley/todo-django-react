@@ -94,7 +94,7 @@ export let API = () => {
             },
         })
     }
-    return axios
+    return axios.create({})
 };
 
 export default BasePage;

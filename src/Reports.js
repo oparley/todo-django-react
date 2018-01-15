@@ -7,7 +7,7 @@ import 'flatpickr/dist/themes/material_green.css';
 import { REPORTS_URL } from './constants'
 import { API } from './BasePage'
 
-// let api = API()
+// let API = API()
 
 class Reports extends Component{
     constructor(props){
@@ -31,7 +31,7 @@ class Reports extends Component{
     render(){
         let report =
             // <div className="tile is-ancestor">
-                <div className="tile is-parent">
+                <div className="tile is-parent" id="report">
                     <article className="tile is-child box">
                     <div className="content">
                         <p className="title">Daily Report</p>

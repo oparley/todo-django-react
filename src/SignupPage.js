@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import { API } from './BasePage'
 import { Link, Redirect } from 'react-router-dom';
 
 
@@ -31,7 +31,7 @@ class LoginPage extends Component{
         if(credentials.password !== credentials.password_confirm){
             this.setState({errors: {password: "Passwords don't match"}})
         } else {
-            axios.post(USERS_URL, this.state.credentials).then((response) => {
+            API().post(USERS_URL, this.state.credentials).then((response) => {
                 this.setState({completed: true})
             }).catch((error) => console.log(error.response));
         }

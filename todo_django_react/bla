@@ -1,0 +1,1 @@
+* * * * * (. /home/vagrant/venv/bin/activate && python /vagrant/manage.py makereports) >> /vagrant/log 2>&1
