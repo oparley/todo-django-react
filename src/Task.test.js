@@ -20,15 +20,27 @@ describe('Task', () => {
       expect(comp.find('a.button.input').text()).toEqual('test task')
     });
 
-    it('shows task name in input', () => {
+    it('shows horizontal stroke on input when completed', () => {
         task.completed = true
         const comp = mount(taskPage)
-        expect(comp.find('del').exists())
+        expect(comp.find('del').exists()).toEqual(true)
     });
 
-    it('shows task name in input', () => {
+    it('shows task name in input when completed', () => {
         task.completed = true
         const comp = mount(taskPage)
         expect(comp.find('del').text()).toEqual('test task')
     });
-  })
+
+    it('has a complete button', () => {
+        const comp = mount(taskPage)
+        expect(comp.find('a.button.is-success').exists()).toEqual(true)
+    });
+
+    it('set task to completed', () => {
+        const onButtonClick = sinon.spy();
+        const wrapper = shallow(<Foo onButtonClick={onButtonClick} />);
+        wrapper.find('a.button.input').simulate('click');
+        expect(onButtonClick.calledOnce).to.equal(true);
+    })
+})
