@@ -48,9 +48,9 @@ class HomePage extends Component{
     }
 
     render(){
-        let newList = <div className="tile is-parent">
+        let newList = <div className="tile is-parent" onClick={(e) => this.addList(e)}>
             <div className="tile is-child box">
-                <div className="title" onClick={(e) => this.addList(e)}>
+                <div className="title">
                     Add a list
                 </div>
             </div>

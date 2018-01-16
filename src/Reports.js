@@ -30,46 +30,40 @@ class Reports extends Component{
 
     render(){
         let report =
-            // <div className="tile is-ancestor">
-                <div className="tile is-parent" id="report">
-                    <article className="tile is-child box">
+            <div className="tile is-parent" id="report">
+                <article className="tile is-child box">
+                <div className="content">
+                    <p className="title">Daily Report</p>
+                    <p className="subtitle">{this.state.day}</p>
                     <div className="content">
-                        <p className="title">Daily Report</p>
-                        <p className="subtitle">{this.state.day}</p>
-                        <div className="content">
-                            <pre> {this.state.report} </pre>
-                        </div>
+                        <pre> {this.state.report} </pre>
                     </div>
-                    <div className="level">
-                        <div className="level-right">
-                            <a onClick={() => this.print() }className="button is-link is-right"> Print </a>
-                        </div>
-                    </div>
-                    </article>
                 </div>
-            // </div>
+                <div className="level">
+                    <div className="level-right">
+                        <a onClick={() => this.print() }className="button is-link is-right"> Print </a>
+                    </div>
+                </div>
+                </article>
+            </div>
 
         return(
-        <div className="columns" >
-            <div className="column is-three-fifths is-offset-one-fifth">
-                <div className="columns">
-                    <div className="column is-two-fifths">
-                        <label className="label"> Select a day</label>
-                        <Flatpickr
-                            options={{
-                                inline: true,
-                                maxDate: "today",
-                                dateFormat: 'Y-m-d',
-                            }}
-                            onChange={(date) => this.report(date[0])}
-                            value={this.state.day}/>
-                    </div>
-                    <div className="column">
-                        {report}
-                    </div>
+            <div className="columns">
+                <div className="column is-two-fifths">
+                    <label className="label"> Select a day</label>
+                    <Flatpickr
+                        options={{
+                            inline: true,
+                            maxDate: "today",
+                            dateFormat: 'Y-m-d',
+                        }}
+                        onChange={(date) => this.report(date[0])}
+                        value={this.state.day}/>
+                </div>
+                <div className="column">
+                    {report}
                 </div>
             </div>
-        </div>
     )}
 }
 
