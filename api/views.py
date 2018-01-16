@@ -1,3 +1,4 @@
+from  http import HTTPStatus as status
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, permission_classes
 from rest_framework.response import Response
@@ -55,4 +56,6 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response('No report available today')
 
     def create(self, request, *args, **kwargs):
+        if 'email' not in request.data:
+            return Response('Email is required', status=status.BAD_REQUEST)
         return super().create(request, *args, **kwargs)
