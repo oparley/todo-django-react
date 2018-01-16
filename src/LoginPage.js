@@ -56,11 +56,6 @@ class LoginPage extends Component{
                 </div>
                 <div className="field is-grouped is-grouped-centered">
                     <p className="control">
-                        <a className="button is-text">
-                            <span>Forgot my password</span>
-                        </a>
-                    </p>
-                    <p className="control">
                         <Link to="/signup" className="button is-text">
                             <span>Signup</span>
                         </Link>
