@@ -4,7 +4,7 @@ from random import randint, choice
 
 fake = Faker()
 
-u = User.objects.get_or_create(username='parley', is_staff=True)[0]
+u = User.objects.get_or_create(username='parley', is_staff=True, email='bla@bla.com')[0]
 u.set_password('123')
 u.save()
 

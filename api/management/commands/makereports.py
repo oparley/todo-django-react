@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 from django.core.management.base import BaseCommand, CommandError
-from api.models import User, Report
+from api.models import User, Report, Task
 from django.core.mail import send_mail
 
 
@@ -18,9 +18,9 @@ class Command(BaseCommand):
             )
 
     def create_user_report(self, user):
-        done = user.tasks.filter(completed_at=date.today())
+        done = Task.objects.filter(task_list__creator=user,completed_at=date.today())
         in_one_week = date.today() + timedelta(weeks=1)
-        near = user.tasks.filter(completed_at__gt=date.today(), completed_at__lte=in_one_week)
+        near = Task.objects.filter(task_list__creator=user,completed_at__gt=date.today(), completed_at__lte=in_one_week)
 
         text = 'Hello {0.username},\nHere is your daily report.'.format(user)
         text += '\n\nYou completed {count} task(s) today:'.format(count=done.count())
