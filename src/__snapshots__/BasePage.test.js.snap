@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders base page renders correctly 1`] = `
+<div
+  className="modal is-active notification is-link"
+>
+  <div
+    className="box"
+  >
+    <div
+      className="level"
+    >
+       Login 
+    </div>
+    <div
+      className="level"
+    >
+      <p
+        className="control"
+      >
+        <input
+          className="input"
+          name="username"
+          onChange={[Function]}
+          placeholder="username"
+          type="text"
+          value={undefined}
+        />
+      </p>
+    </div>
+    <div
+      className="level"
+    >
+      <p
+        className="control"
+      >
+        <input
+          className="input"
+          name="password"
+          onChange={[Function]}
+          placeholder="password"
+          type="password"
+          value=""
+        />
+      </p>
+    </div>
+    <div
+      className="field is-grouped is-grouped-centered"
+    >
+      <p
+        className="control"
+      >
+        <a
+          className="button is-success"
+          onClick={[Function]}
+        >
+          <span>
+            Login
+          </span>
+        </a>
+      </p>
+    </div>
+    <div
+      className="field is-grouped is-grouped-centered"
+    >
+      <p
+        className="control"
+      >
+        <a
+          className="button is-text"
+        >
+          <span>
+            Forgot my password
+          </span>
+        </a>
+      </p>
+      <p
+        className="control"
+      >
+        <a
+          className="button is-text"
+          href="/signup"
+          onClick={[Function]}
+        >
+          <span>
+            Signup
+          </span>
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+`;
