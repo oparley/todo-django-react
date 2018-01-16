@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9m2c6c^e4r8zz#0#+^l$ox&xnrutb7(@ufbvt@mh-)mvf+(iu3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['todo-django-react-api.herokuapp.com', 'localhost']
 
